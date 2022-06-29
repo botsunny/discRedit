@@ -50,18 +50,18 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content == '.pb settings':
+    if message.content == '.dC settings':
         sort_str = "Sorting by {}{}.".format(db['sort'][0], ", time filter: " + db['sort'][1] if len(db['sort']) == 2 else "")
         await message.channel.send(
             "NSFW posts {}.\n{}".format('enabled' if db['over18'] else 'disabled', sort_str)
         )
     
-    if message.content == '.pb nsfw':
+    if message.content == '.dC nsfw':
         update_settings(over18=not db['over18'])
         await message.channel.send("NSFW posts will {} be shown.".format('now' if db['over18'] else 'not'))
         return
         
-    if message.content.startswith('.pb sort'):
+    if message.content.startswith('.dC sort'):
         split = message.content.split()
         if len(split) not in [3, 4]:
             return
@@ -74,7 +74,7 @@ async def on_message(message):
             await message.channel.send("Sort type set to {}{}.".format(split[2], ", time filter: " + split[3] if len(split) == 4 else ""))
             return
     
-    if message.content.startswith('.pb r/'):
+    if message.content.startswith('.dC r/'):
         try:
             sub_name = message.content[6:]
         except IndexError:
