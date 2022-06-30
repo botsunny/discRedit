@@ -6,13 +6,13 @@ import asyncprawcore.exceptions
 from replit import db
 from keep_alive import keep_alive
 
-token = os.environ['YOUR DISCORD TOKEN']
-r_secret = os.environ['YOUR REDDIT SECRET']
-id = os.environ['YOUR DISCORD CLIENT ID']
+token = os.environ['DISCORD_TOKEN']
+r_secret = os.environ['REDDIT_SECRET']
+r_id = os.environ['REDDIT_CLIENT_ID']
 
-reddit = asyncpraw.Reddit(client_id=id,
+reddit = asyncpraw.Reddit(client_id=r_id,
                           client_secret=r_secret,
-                          user_agent='YOUR REDDIT USERNAME')
+                          user_agent='REDDIT_USERNAME')
 
 client = discord.Client()
 
@@ -50,18 +50,18 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content == '.dC settings':
+    if message.content == '.dr settings':
         sort_str = "Sorting by {}{}.".format(db['sort'][0], ", time filter: " + db['sort'][1] if len(db['sort']) == 2 else "")
         await message.channel.send(
             "NSFW posts {}.\n{}".format('enabled' if db['over18'] else 'disabled', sort_str)
         )
     
-    if message.content == '.dC nsfw':
+    if message.content == '.dr nsfw':
         update_settings(over18=not db['over18'])
         await message.channel.send("NSFW posts will {} be shown.".format('now' if db['over18'] else 'not'))
         return
         
-    if message.content.startswith('.dC sort'):
+    if message.content.startswith('.dr sort'):
         split = message.content.split()
         if len(split) not in [3, 4]:
             return
@@ -74,7 +74,7 @@ async def on_message(message):
             await message.channel.send("Sort type set to {}{}.".format(split[2], ", time filter: " + split[3] if len(split) == 4 else ""))
             return
     
-    if message.content.startswith('.dC r/'):
+    if message.content.startswith('.dr r/'):
         try:
             sub_name = message.content[6:]
         except IndexError:
@@ -104,4 +104,3 @@ async def on_message(message):
 
 keep_alive()
 client.run(token)
-  
