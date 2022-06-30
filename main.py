@@ -78,8 +78,11 @@ async def on_message(message):
         
         try:
             sub = await reddit.subreddit(sub_name, fetch = True)
-        except (asyncprawcore.exceptions.Redirect, asyncprawcore.exceptions.NotFound):
-            await message.channel.send("Subreddit does not exist.")
+        except (asyncprawcore.exceptions.Redirect,   
+                asyncprawcore.exceptions.NotFound,
+                asyncprawcore.exceptions.Forbidden
+               ):
+            await message.channel.send("Subreddit is private, quarantined, banned, or does not exist.")
             return
         else:
             if sub.over18 and not db['over18']:
@@ -96,8 +99,11 @@ async def on_message(message):
             else:
                 await message.channel.send(submission.selftext)
         else:
-            await message.channel.send(submission.url)
+            if 'v.redd.it' in submission.url:
+                await message.channel.send('https://www.reddit.com' + submission.permalink)
+            else:
+                await message.channel.send(submission.url)
 
 keep_alive()
 client.run(token)
-
+  
