@@ -1,6 +1,6 @@
 # discRedit
 
-disCredit is a simple Discord bot coded in Python that fetches a random submission from a specified subreddit and sends it to the current channel. It is designed to run on [Replit](https://replit.com/) and be deployed on a [Replit HTTP server](https://docs.replit.com/hosting/deploying-http-servers), but you can modify it to host it on other platforms. APIs used include [discord.py](https://discordpy.readthedocs.io/en/stable/) and [Async PRAW](https://asyncpraw.readthedocs.io/en/stable/).
+discRedit is a simple Discord bot coded in Python that fetches a random submission from a specified subreddit and sends it to the current channel. It is designed to run on [Replit](https://replit.com/) and be deployed on a [Replit HTTP server](https://docs.replit.com/hosting/deploying-http-servers), but you can modify it to host it on other platforms. APIs used include [discord.py](https://discordpy.readthedocs.io/en/stable/) and [Async PRAW](https://asyncpraw.readthedocs.io/en/stable/).
 
 This bot was made with reference to the [beginner's tutorial](https://www.youtube.com/watch?v=SPTfmiYiuok) to create a Discord bot by freeCodeCamp.
 
