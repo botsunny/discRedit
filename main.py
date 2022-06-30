@@ -17,17 +17,10 @@ reddit = asyncpraw.Reddit(client_id=r_id,
 client = discord.Client()
 
 def update_settings(over18=None, sort=None):
-    if 'over18' in db.keys():
-        if over18 is not None:
-            db['over18'] = over18
-    else:
-        db['over18'] = False if over18 is None else True
-
-    if 'sort' in db.keys():
-        if sort is not None:
-            db['sort'] = sort
-    else:
-        db['sort'] = ['hot'] if sort is None else sort.split()
+    if over18 is not None:
+        db['over18'] = over18
+    if sort is not None:
+        db['sort'] = sort
 
 def get_submissions(sub, sort):
     if sort[0] == 'hot':
@@ -42,8 +35,10 @@ def get_submissions(sub, sort):
 @client.event
 async def on_ready():
     print("Logged in as {0.user}.".format(client))
-    if 'over18' not in db.keys() or 'sort' not in db.keys():
-        update_settings()
+    if 'over18' not in db.keys():
+        db['over18'] = False
+    if 'sort' not in db.keys():
+        db['sort'] = ['hot']
 
 @client.event
 async def on_message(message):
@@ -55,7 +50,8 @@ async def on_message(message):
         await message.channel.send(
             "NSFW posts {}.\n{}".format('enabled' if db['over18'] else 'disabled', sort_str)
         )
-    
+        return
+
     if message.content == '.dr nsfw':
         update_settings(over18=not db['over18'])
         await message.channel.send("NSFW posts will {} be shown.".format('now' if db['over18'] else 'not'))
@@ -104,3 +100,4 @@ async def on_message(message):
 
 keep_alive()
 client.run(token)
+
