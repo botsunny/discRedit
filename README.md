@@ -21,7 +21,7 @@ This bot was made with reference to the [beginner's tutorial](https://www.youtub
 
 3. Install the `discord`, `asyncpraw` and `Flask` packages on Replit.
 
-4. Create a new Repl and upload both `main.py` and `keep_alive.py` files.
+4. Create a new Repl and upload all three of `main.py`, `keep_alive.py` and `restarter.py`.
 
 5. Create secrets inside Replit for your Discord token, Reddit secret and Reddit client ID. The keys for each secret should then replace the strings inside the square brackets in lines 9, 10 and 11 of `main.py`. Also replace `REDDIT_USERNAME` in line 15 with your Reddit username (with which you create the Reddit app).
 
