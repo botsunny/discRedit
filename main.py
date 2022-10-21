@@ -56,7 +56,7 @@ async def on_message(message):
         update_settings(over18=not db['over18'])
         await message.channel.send("NSFW posts will {} be shown.".format('now' if db['over18'] else 'not'))
         return
-        
+
     if message.content.startswith('.dr sort'):
         split = message.content.split()
         if len(split) not in [3, 4]:
@@ -69,16 +69,16 @@ async def on_message(message):
             update_settings(sort=split[2:])
             await message.channel.send("Sort type set to {}{}.".format(split[2], ", time filter: " + split[3] if len(split) == 4 else ""))
             return
-    
+
     if message.content.startswith('.dr r/'):
         try:
             sub_name = message.content[6:]
         except IndexError:
             return
-        
+
         try:
             sub = await reddit.subreddit(sub_name, fetch = True)
-        except (asyncprawcore.exceptions.Redirect,   
+        except (asyncprawcore.exceptions.Redirect,
                 asyncprawcore.exceptions.NotFound,
                 asyncprawcore.exceptions.Forbidden
                ):
@@ -88,11 +88,11 @@ async def on_message(message):
             if sub.over18 and not db['over18']:
                 await message.channel.send("Bonk! Go to horny jail.")
                 return
-                
+
         posts = get_submissions(sub, db['sort'])
-        
+
         submission = random.choice([post async for post in posts])
-        
+
         if submission.is_self:
             if submission.selftext == '':
                 await message.channel.send(submission.title)
@@ -102,8 +102,16 @@ async def on_message(message):
             if 'v.redd.it' in submission.url:
                 await message.channel.send('https://www.reddit.com' + submission.permalink)
             else:
-                await message.channel.send(submission.url)
+                if sub.over18:
+                    await message.channel.send(f"|| {submission.url} ||")
+                else:
+                    await message.channel.send(submission.url)
 
 keep_alive()
-client.run(token)
+try:
+    client.run(token)
+except discord.errors.HTTPException:
+    print("\n\n\nBLOCKED BY RATE LIMITS\nRESTARTING NOW\n\n\n")
+    os.system('kill 1')
+    os.system("python restarter.py")
   
